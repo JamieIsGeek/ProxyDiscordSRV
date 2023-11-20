@@ -3,8 +3,6 @@ package uk.jamieisgeek.bungeediscordsrv;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
-import java.io.IOException;
-
 public class BungeeDiscordSRV extends Plugin {
     private static BungeeDiscordSRV instance;
     private Configuration configuration;
@@ -13,6 +11,7 @@ public class BungeeDiscordSRV extends Plugin {
     public void onEnable() {
         instance = this;
         String[] items;
+        /*
         try {
             items = this.getConfigItems();
         } catch (IOException e) {
@@ -30,5 +29,6 @@ public class BungeeDiscordSRV extends Plugin {
         this.getProxy().getPluginManager().registerListener(this, new ChatListener());
         this.getProxy().getPluginManager().registerListener(this, new JoinLeaveListener());
         this.getProxy().getPluginManager().registerCommand(this, new ReloadCommand());
+        */
     }
 }

@@ -1,5 +1,5 @@
 name: BungeeDiscordSRV
-version: ${project.version}
+version: ${version}
 main: uk.jamieisgeek.bungeediscordsrv.BungeeDiscordSRV
-description: ${project.description}
+description: ${description}
 author: "JamieIsGeek"
