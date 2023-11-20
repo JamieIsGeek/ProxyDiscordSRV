@@ -25,6 +25,7 @@ rootProject.name = "bungeediscordsrv-parent"
 includeBuild("build-logic")
 
 subproject("bungee")
+subproject("common")
 
 setupSubproject("bungeediscordsrv") {
     projectDir = file("universal")

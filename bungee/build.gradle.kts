@@ -1,3 +1,3 @@
 dependencies {
-    libs.bungee
+    compileOnly(libs.bungee)
 }
