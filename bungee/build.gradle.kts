@@ -1,0 +1,3 @@
+dependencies {
+    libs.bungee
+}
