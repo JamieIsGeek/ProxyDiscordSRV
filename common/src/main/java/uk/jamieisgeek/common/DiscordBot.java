@@ -1,7 +1,10 @@
 package uk.jamieisgeek.common;
 
+import com.typesafe.config.Optional;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -12,6 +15,7 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.md_5.bungee.api.ProxyServer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
@@ -24,28 +28,67 @@ public class DiscordBot implements EventListener {
     private final ProxyServer proxy;
     private final ArrayList<TextChannel> channels = new ArrayList<>();
 
-    public DiscordBot(String token, String categoryID, ProxyServer proxy) throws LoginException, InterruptedException {
+    public DiscordBot(String token, String categoryID, ProxyServer proxy, String status, String activity, String activityText) throws LoginException, InterruptedException {
         instance = this;
         this.categoryID = categoryID;
 
         this.proxy = proxy;
 
-        BOT = JDABuilder.createLight(token)
-                .enableIntents(
-                        GatewayIntent.GUILD_MESSAGES,
-                        GatewayIntent.GUILD_MEMBERS
-                )
-                .disableIntents(
-                        GatewayIntent.DIRECT_MESSAGE_REACTIONS,
-                        GatewayIntent.GUILD_BANS,
-                        GatewayIntent.DIRECT_MESSAGES,
-                        GatewayIntent.DIRECT_MESSAGE_TYPING
-                )
-                .setChunkingFilter(ChunkingFilter.ALL)
-                .setMemberCachePolicy(MemberCachePolicy.ALL)
-                .setBulkDeleteSplittingEnabled(false)
-                .addEventListeners(this)
-                .build();
+        OnlineStatus onlineStatus;
+
+        switch (status.toLowerCase()) {
+            case "idle" -> onlineStatus = OnlineStatus.IDLE;
+            case "dnd" -> onlineStatus = OnlineStatus.DO_NOT_DISTURB;
+            case "invisible" -> onlineStatus = OnlineStatus.INVISIBLE;
+            default -> onlineStatus = OnlineStatus.ONLINE;
+        }
+
+        if(activity.equalsIgnoreCase("null")) {
+            BOT = JDABuilder.createLight(token)
+                    .enableIntents(
+                            GatewayIntent.GUILD_MESSAGES,
+                            GatewayIntent.GUILD_MEMBERS
+                    )
+                    .disableIntents(
+                            GatewayIntent.DIRECT_MESSAGE_REACTIONS,
+                            GatewayIntent.GUILD_BANS,
+                            GatewayIntent.DIRECT_MESSAGES,
+                            GatewayIntent.DIRECT_MESSAGE_TYPING
+                    )
+                    .setChunkingFilter(ChunkingFilter.ALL)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setBulkDeleteSplittingEnabled(false)
+                    .addEventListeners(this)
+                    .setStatus(onlineStatus)
+                    .build();
+        } else {
+            Activity activityType;
+
+            switch (activity.toLowerCase()) {
+                case "listening" -> activityType = Activity.listening(activityText);
+                case "watching" -> activityType = Activity.watching(activityText);
+                default -> activityType = Activity.playing(activityText);
+            }
+
+            BOT = JDABuilder.createLight(token)
+                    .enableIntents(
+                            GatewayIntent.GUILD_MESSAGES,
+                            GatewayIntent.GUILD_MEMBERS
+                    )
+                    .disableIntents(
+                            GatewayIntent.DIRECT_MESSAGE_REACTIONS,
+                            GatewayIntent.GUILD_BANS,
+                            GatewayIntent.DIRECT_MESSAGES,
+                            GatewayIntent.DIRECT_MESSAGE_TYPING
+                    )
+                    .setChunkingFilter(ChunkingFilter.ALL)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setBulkDeleteSplittingEnabled(false)
+                    .addEventListeners(this)
+                    .setStatus(onlineStatus)
+                    .setActivity(activityType)
+                    .build();
+        }
 
         new DiscordManager(proxy);
     }
@@ -115,6 +158,14 @@ public class DiscordBot implements EventListener {
     public static void shutdown() {
         if(BOT == null) return;
         BOT.shutdown();
+    }
+
+    public static void setStatus(OnlineStatus status) {
+        BOT.getPresence().setStatus(status);
+    }
+
+    public static void setPresence(Activity status, String text, @Optional String url) {
+        BOT.getPresence().setActivity(status);
     }
 
     public static ArrayList<TextChannel> getChannels() {

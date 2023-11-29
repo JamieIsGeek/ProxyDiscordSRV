@@ -16,3 +16,11 @@ discord:
   token: "YOUR_TOKEN_HERE"
   # The category ID for the category you want to use for your chats.
   category: "YOUR_CATEGORY_ID_HERE"
+
+  presence:
+    # The status you want to use for your presence. Valid options are: ONLINE, IDLE, DND, INVISIBLE.
+    status: "ONLINE"
+    # The type of presence you want to use. Valid options are: PLAYING, LISTENING, WATCHING. Set to NULL if you don't want to use a presence.
+    type: "WATCHING"
+    # The text you want to display for your presence.
+    text: "github.com/JamieIsGeek"

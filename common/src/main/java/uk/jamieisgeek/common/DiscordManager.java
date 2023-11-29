@@ -1,6 +1,9 @@
 package uk.jamieisgeek.common;
 
+import com.typesafe.config.Optional;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.md_5.bungee.api.ProxyServer;
 
