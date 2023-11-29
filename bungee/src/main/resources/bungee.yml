@@ -1,0 +1,5 @@
+name: BungeeDiscordSRV
+version: ${version}
+main: uk.jamieisgeek.bungeediscordsrv.BungeeDiscordSRV
+description: ${description}
+author: "JamieIsGeek"

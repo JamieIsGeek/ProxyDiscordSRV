@@ -1,3 +1,4 @@
 dependencies {
-    libs.bungee
+    compileOnly(libs.bungee)
+    api(projects.bungeediscordsrvCommon)
 }

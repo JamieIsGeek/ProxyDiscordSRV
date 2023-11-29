@@ -1,0 +1,18 @@
+#############################################################
+# ____                               _____ _______      __  #
+# |  _ \                             / ____|  __ \ \    / / #
+# | |_) |_   _ _ __   __ _  ___  ___| (___ | |__) \ \  / /  #
+# |  _ <| | | | '_ \ / _` |/ _ \/ _ \\___ \|  _  / \ \/ /   #
+# | |_) | |_| | | | | (_| |  __/  __/____) | | \ \  \  /    #
+# |____/ \__,_|_| |_|\__, |\___|\___|_____/|_|  \_\  \/     #
+#                     __/ |                                 #
+#                    |___/                                  #
+#############################################################
+
+# This is the main configuration file for BungeeSRV.
+
+discord:
+  # The bot token for your Discord bot.
+  token: "YOUR_TOKEN_HERE"
+  # The category ID for the category you want to use for your chats.
+  category: "YOUR_CATEGORY_ID_HERE"
