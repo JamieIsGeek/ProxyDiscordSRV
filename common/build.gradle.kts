@@ -1,5 +1,5 @@
 dependencies {
-    compileOnly(libs.jda)
+    implementation(libs.jda)
     compileOnly(libs.bungee)
     compileOnly(libs.velocity)
 }

@@ -7,6 +7,7 @@ import net.md_5.bungee.config.YamlConfiguration;
 import uk.jamieisgeek.bungeediscordsrv.Events.ChatListener;
 import uk.jamieisgeek.bungeediscordsrv.Events.JoinLeaveListener;
 import uk.jamieisgeek.common.DiscordBot;
+import uk.jamieisgeek.common.DiscordManager;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -55,7 +56,8 @@ public class BungeeDiscordSRV extends Plugin {
 
     @Override
     public void onDisable() {
-
+        DiscordManager.shutdown();
+        getLogger().info("BungeeDiscordSRV has been disabled.");
     }
 
     public void setupConfig() throws IOException {

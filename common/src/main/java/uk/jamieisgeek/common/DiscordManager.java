@@ -29,6 +29,7 @@ public class DiscordManager {
     }
 
     public void sendStatusMessage(boolean online) {
+        if(channels.isEmpty()) throw new RuntimeException("No channels found!");
         channels.forEach(channel -> channel.sendMessage("Network is " + (online ? "online" : "offline")).queue());
     }
 
@@ -53,5 +54,10 @@ public class DiscordManager {
             }
         }
         return null;
+    }
+
+    public static void shutdown() {
+        DiscordManager.getDiscordManager().sendStatusMessage(false);
+        DiscordBot.shutdown();
     }
 }
