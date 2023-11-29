@@ -6,7 +6,6 @@ public class Cache {
     public static Cache cache;
     private String proxyType;
     private ProxyServer bungee;
-    private 
     public Cache() {
         cache = this;
     }

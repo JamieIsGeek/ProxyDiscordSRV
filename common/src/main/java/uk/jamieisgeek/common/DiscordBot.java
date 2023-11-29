@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -17,11 +18,11 @@ import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscordBot {
+public class DiscordBot implements EventListener {
     private final String token;
     private final DiscordManager discordManager;
     private static DiscordBot instance;
-    private final JDA BOT;
+    private static JDA BOT = null;
     private final String categoryID;
     private ProxyServer proxy;
     private ArrayList<TextChannel> channels = new ArrayList<>();
@@ -31,11 +32,7 @@ public class DiscordBot {
         this.token = token;
         this.categoryID = categoryID;
 
-        if(Cache.getCache().getProxyType().equals("bungee")) {
-            this.proxy = proxy;
-        } else {
-
-        }
+        this.proxy = proxy;
 
         BOT = JDABuilder.createLight(token)
                 .enableIntents(
@@ -54,18 +51,18 @@ public class DiscordBot {
                 .addEventListeners(this)
                 .build().awaitReady();
 
-        this.setupChannels();
-        this.discordManager = new DiscordManager();
+        this.discordManager = new DiscordManager(proxy);
     }
-    @Override
+
     public void onEvent(@NotNull GenericEvent event) {
         if(event instanceof ReadyEvent) {
             proxy.getLogger().info("Discord Bot is ready!");
+            this.setupChannels();
         } else if (event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent guildMessageReceivedEvent = (GuildMessageReceivedEvent) event;
             if(guildMessageReceivedEvent.getAuthor().isBot()) return;
             if(guildMessageReceivedEvent.getChannel().getParent().getId().equals(categoryID)) {
-                Factory.sendChannelMessage(guildMessageReceivedEvent.getMessage().getContentRaw(), guildMessageReceivedEvent.getAuthor().getName(), guildMessageReceivedEvent.getChannel().getName());
+                Factory.getFactory().sendChannelMessage(guildMessageReceivedEvent.getMessage().getContentRaw(), guildMessageReceivedEvent.getAuthor().getName(), guildMessageReceivedEvent.getChannel().getName());
             }
         }
     }
@@ -92,8 +89,8 @@ public class DiscordBot {
         });
     }
 
-    public void shutdown() {
-        if(this.BOT == null) return;
+    public static void shutdown() {
+        if(BOT == null) return;
         BOT.shutdown();
     }
 

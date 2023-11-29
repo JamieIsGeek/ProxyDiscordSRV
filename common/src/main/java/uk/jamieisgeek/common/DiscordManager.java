@@ -2,15 +2,19 @@ package uk.jamieisgeek.common;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.md_5.bungee.api.ProxyServer;
 
 import java.util.ArrayList;
 
 public class DiscordManager {
-    private ArrayList<TextChannel> channels;
+    private final ArrayList<TextChannel> channels;
     private static DiscordManager instance;
-    private final Factory factory = new Factory();
-    public DiscordManager() {
+    private final ProxyServer proxy;
+    private final Factory factory;
+    public DiscordManager(ProxyServer proxy) {
         this.channels = DiscordBot.getChannels();
+        this.proxy = proxy;
+        this.factory = new Factory(this.proxy);
         instance = this;
     }
 
