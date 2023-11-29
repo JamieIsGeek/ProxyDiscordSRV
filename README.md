@@ -7,5 +7,6 @@ servers with a single plugin.
 ## TODO
 - [X] Refactor code to allow for expandability
 - [X] Reformat plugin
+- [ ] Add more configuration options
 - [ ] Add support for custom discord status on the bot
 - [ ] Add support for Velocity
