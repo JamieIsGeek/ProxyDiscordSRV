@@ -1,37 +1,44 @@
 package uk.jamieisgeek.bungeediscordsrv;
 
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
 import uk.jamieisgeek.bungeediscordsrv.Events.ChatListener;
 import uk.jamieisgeek.bungeediscordsrv.Events.JoinLeaveListener;
+import uk.jamieisgeek.common.Config.Config;
 import uk.jamieisgeek.common.DiscordBot;
 import uk.jamieisgeek.common.DiscordManager;
 
 import javax.security.auth.login.LoginException;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 public class BungeeDiscordSRV extends Plugin {
     @Override
     public void onEnable() {
-        ConfigHandler config;
+        this.createFile("config.yml", "config.yml");
+        Config config = new Config(new File(getDataFolder(), "config.yml"), "");
 
         try {
-            config = new ConfigHandler(this);
+            config.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        String[] items = config.getBotSetupItems();
-        String[] presence = config.getPresence();
+        final String token = config.getOrSet("discord.token", "BOT_TOKEN_HERE");
+        final String catID = config.getOrSet("discord.category", "CATEGORY_ID_HERE");
+        final String status = config.getOrSet("discord.presence.status", "ONLINE");
+        final String activity = config.getOrSet("discord.presence.activity", "PLAYING");
+        final String activityName = config.getOrSet("discord.presence.text", "Minecraft");
 
         try {
             new DiscordBot(
-                    items[0],
-                    items[1],
+                    token,
+                    catID,
                     getProxy(),
-                    config.getStatus(),
-                    presence[0],
-                    presence[1]
+                    status,
+                    activity,
+                    activityName
             );
         } catch (LoginException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -59,5 +66,16 @@ public class BungeeDiscordSRV extends Plugin {
     public void onDisable() {
         DiscordManager.shutdown();
         getLogger().info("BungeeDiscordSRV has been disabled.");
+    }
+
+    private void createFile(final String name, final String from) {
+        final File file = new File(getDataFolder(), name);
+        if (!file.exists()) {
+            try (final InputStream in = this.getClass().getClassLoader().getResourceAsStream(from)) {
+                Files.copy(in, file.toPath());
+            } catch (final IOException e) {
+                throw new RuntimeException("Unable to create " + name + " file for BungeeDiscordSRV!", e);
+            }
+        }
     }
 }
