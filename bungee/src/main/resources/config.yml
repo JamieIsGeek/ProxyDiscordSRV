@@ -10,8 +10,10 @@
 #   ProxyDiscordSRV Enabled - Made by JamieIsGeek    #
 ######################################################
 
-# This is the main configuration file for BungeeSRV.
+# DANGER ZONE
+config-version: 1
 
+# Bot Configuration
 discord:
   # The bot token for your Discord bot.
   token: "YOUR_TOKEN_HERE"

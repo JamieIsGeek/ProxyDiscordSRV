@@ -14,21 +14,25 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 public class ProxyDiscordSRV extends Plugin {
+    private Config config;
+    private final int CONFIG_VERSION = 1;
     @Override
     public void onEnable() {
         try {
-            this.createFile();
+            this.createFile("config.yml", "config.yml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        Config config = new Config(new File(getDataFolder(), "config.yml"), "");
+        this.config = new Config(new File(getDataFolder(), "config.yml"), "");
 
         try {
             config.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        this.updateConfig();
 
         final String token = config.getOrSet("discord.token", "BOT_TOKEN_HERE");
         final String catID = config.getOrSet("discord.category", "CATEGORY_ID_HERE");
@@ -73,8 +77,8 @@ public class ProxyDiscordSRV extends Plugin {
         getLogger().info("BungeeDiscordSRV has been disabled.");
     }
 
-    private void createFile() throws IOException {
-        final File file = new File(getDataFolder(), "config.yml");
+    private void createFile(final String name, final String from) throws IOException {
+        final File file = new File(getDataFolder(), name);
         if (!this.getDataFolder().exists()) {
             this.getDataFolder().mkdir();
         }
@@ -83,8 +87,49 @@ public class ProxyDiscordSRV extends Plugin {
             return;
         }
 
-        try (InputStream in = getResourceAsStream("config.yml")) {
+        try (InputStream in = getResourceAsStream(from)) {
             Files.copy(in, file.toPath());
+        }
+    }
+
+    private void updateConfig() {
+        final int version = config.getInt("config-version", 0);
+
+        if (version == CONFIG_VERSION) {
+            return;
+        }
+
+        this.getLogger().info("Updating config.yml to version " + CONFIG_VERSION);
+
+        try {
+            createFile("config-new.yml", "config.yml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        final File file = new File(getDataFolder(), "config-new.yml");
+        final Config tempConfig = new Config(file, "");
+        try {
+            tempConfig.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        config.addMissingFields(tempConfig.getValues(), tempConfig.getComments());
+        config.set("config-version", CONFIG_VERSION);
+
+        file.delete();
+        tempConfig.clear();
+
+        saveConfig();
+        getLogger().info("Config.yml has been updated to version " + CONFIG_VERSION);
+    }
+
+    public void saveConfig() {
+        try {
+            config.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
