@@ -20,19 +20,19 @@ pluginManagement {
     }
 }
 
-rootProject.name = "bungeediscordsrv-parent"
+rootProject.name = "proxydiscordsrv-parent"
 
 includeBuild("build-logic")
 
 subproject("bungee")
 subproject("common")
 
-setupSubproject("bungeediscordsrv") {
+setupSubproject("proxydiscordsrv") {
     projectDir = file("universal")
 }
 
 fun subproject(name: String) {
-    setupSubproject("bungeediscordsrv-$name") {
+    setupSubproject("proxydiscordsrv-$name") {
         projectDir = file(name)
     }
 }

@@ -1,4 +1,4 @@
-package uk.jamieisgeek.bungeediscordsrv.Events;
+package uk.jamieisgeek.proxydiscordsrv.Events;
 
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;

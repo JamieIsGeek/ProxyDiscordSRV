@@ -6,13 +6,13 @@ plugins {
 
 // Not actually universal:tm:
 val platforms = setOf(
-    rootProject.projects.bungeediscordsrvBungee,
+    rootProject.projects.proxydiscordsrvBungee,
 ).map { it.dependencyProject }
 
 tasks {
     shadowJar {
         archiveClassifier.set("")
-        archiveFileName.set("BungeeDiscordSRV-${project.version}.jar")
+        archiveFileName.set("ProxyDiscordSRV-${project.version}.jar")
         destinationDirectory.set(rootProject.projectDir.resolve("build/libs"))
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         platforms.forEach { platform ->

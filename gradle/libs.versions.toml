@@ -4,8 +4,12 @@ metadata.format.version = "1.1"
 bungee = "1.20-R0.1-SNAPSHOT"
 velocity = "3.0.0"
 jda = "4.4.0_352"
+snakeyaml = "1.23"
+jetbrainsAnnotations = "24.0.1"
 
 [libraries]
 bungee = { group = "net.md-5", name = "bungeecord-api", version.ref = "bungee" }
 velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
 jda = { group = "net.dv8tion", name = "JDA", version.ref = "jda" }
+snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyaml" }
+jetbrainsAnnotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
