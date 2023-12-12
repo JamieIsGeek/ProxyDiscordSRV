@@ -26,6 +26,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            build/libs/BungeeDiscordSRV-Bungee-*.jar
+            build/libs/ProxyDiscordSRV-Bungee-*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
