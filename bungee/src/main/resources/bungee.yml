@@ -1,5 +1,5 @@
-name: BungeeDiscordSRV
+name: ProxyDiscordSRV
 version: ${version}
-main: uk.jamieisgeek.bungeediscordsrv.BungeeDiscordSRV
+main: uk.jamieisgeek.proxydiscordsrv.ProxyDiscordSRV
 description: ${description}
 author: JamieIsGeek

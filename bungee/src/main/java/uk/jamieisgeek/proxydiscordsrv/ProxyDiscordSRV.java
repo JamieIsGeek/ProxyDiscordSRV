@@ -1,8 +1,8 @@
-package uk.jamieisgeek.bungeediscordsrv;
+package uk.jamieisgeek.proxydiscordsrv;
 
 import net.md_5.bungee.api.plugin.Plugin;
-import uk.jamieisgeek.bungeediscordsrv.Events.ChatListener;
-import uk.jamieisgeek.bungeediscordsrv.Events.JoinLeaveListener;
+import uk.jamieisgeek.proxydiscordsrv.Events.ChatListener;
+import uk.jamieisgeek.proxydiscordsrv.Events.JoinLeaveListener;
 import uk.jamieisgeek.common.Config.Config;
 import uk.jamieisgeek.common.DiscordBot;
 import uk.jamieisgeek.common.DiscordManager;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-public class BungeeDiscordSRV extends Plugin {
+public class ProxyDiscordSRV extends Plugin {
     @Override
     public void onEnable() {
         this.createFile("config.yml", "config.yml");

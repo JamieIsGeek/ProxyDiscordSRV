@@ -3,7 +3,7 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.named
 
 plugins {
-    id("bungeediscordsrv.base-conventions")
+    id("proxydiscordsrv.base-conventions")
     id("com.github.johnrengelman.shadow")
 }
 

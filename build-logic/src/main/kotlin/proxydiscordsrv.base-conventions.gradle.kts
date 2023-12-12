@@ -40,9 +40,9 @@ publishing {
         artifactId = project.name
         version = rootProject.version as String
         pom {
-            name.set("BungeeDiscordSRV")
+            name.set("ProxyDiscordSRV")
             description.set("A plugin to allow proxy servers to communicate with Discord")
-            url.set("https://github.com/JamieIsGeek/BungeeDiscordSRV")
+            url.set("https://github.com/JamieIsGeek/ProxyDiscordSRV")
             licenses {
                 license {
                     name.set("GNU GPLv3")
