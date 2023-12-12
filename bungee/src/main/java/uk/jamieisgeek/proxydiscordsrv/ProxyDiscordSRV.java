@@ -16,7 +16,12 @@ import java.nio.file.Files;
 public class ProxyDiscordSRV extends Plugin {
     @Override
     public void onEnable() {
-        this.createFile("config.yml", "config.yml");
+        try {
+            this.createFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         Config config = new Config(new File(getDataFolder(), "config.yml"), "");
 
         try {
@@ -47,19 +52,19 @@ public class ProxyDiscordSRV extends Plugin {
         this.getProxy().getPluginManager().registerListener(this, new ChatListener());
         this.getProxy().getPluginManager().registerListener(this, new JoinLeaveListener());
 
-        getLogger().info("#############################################################");
-        getLogger().info("# ____                               _____ _______      __  #");
-        getLogger().info("# |  _ \\                             / ____|  __ \\ \\    / / #");
-        getLogger().info("# | |_) |_   _ _ __   __ _  ___  ___| (___ | |__) \\ \\  / /  #");
-        getLogger().info("# |  _ <| | | | '_ \\ / _` |/ _ \\/ _ \\\\___ \\|  _  / \\ \\/ /   #");
-        getLogger().info("# | |_) | |_| | | | | (_| |  __/  __/____) | | \\ \\  \\  /    #");
-        getLogger().info("# |____/ \\__,_|_| |_|\\__, |\\___|\\___|_____/|_|  \\_\\  \\/     #");
-        getLogger().info("#                     __/ |                                 #");
-        getLogger().info("#                    |___/                                  #");
-        getLogger().info("#                                                           #");
-        getLogger().info("#             BungeeDiscordSRV v1.0.0 by JamieIsGeek        #");
-        getLogger().info("#                                                           #");
-        getLogger().info("#############################################################");
+        getLogger().info("######################################################");
+        getLogger().info("#                                                    #");
+        getLogger().info("# _____                      _____ _______      __   #");
+        getLogger().info("# |  __ \\                    / ____|  __ \\ \\    / /  #");
+        getLogger().info("# | |__) | __ _____  ___   _| (___ | |__) \\ \\  / /   #");
+        getLogger().info("# |  ___/ '__/ _ \\ \\/ / | | |\\___ \\|  _  / \\ \\/ /    #");
+        getLogger().info("# | |   | | | (_) >  <| |_| |____) | | \\ \\  \\  /     #");
+        getLogger().info("# |_|   |_|  \\___/_/\\_\\\\__, |_____/|_|  \\_\\  \\/      #");
+        getLogger().info("#                       __/ |                        #");
+        getLogger().info("#                      |___/                         #");
+        getLogger().info("#                                                    #");
+        getLogger().info("#   ProxyDiscordSRV Enabled - Made by JamieIsGeek    #");
+        getLogger().info("######################################################");
     }
 
     @Override
@@ -68,14 +73,18 @@ public class ProxyDiscordSRV extends Plugin {
         getLogger().info("BungeeDiscordSRV has been disabled.");
     }
 
-    private void createFile(final String name, final String from) {
-        final File file = new File(getDataFolder(), name);
-        if (!file.exists()) {
-            try (final InputStream in = this.getClass().getClassLoader().getResourceAsStream(from)) {
-                Files.copy(in, file.toPath());
-            } catch (final IOException e) {
-                throw new RuntimeException("Unable to create " + name + " file for BungeeDiscordSRV!", e);
-            }
+    private void createFile() throws IOException {
+        final File file = new File(getDataFolder(), "config.yml");
+        if (!this.getDataFolder().exists()) {
+            this.getDataFolder().mkdir();
+        }
+
+        if (file.exists()) {
+            return;
+        }
+
+        try (InputStream in = getResourceAsStream("config.yml")) {
+            Files.copy(in, file.toPath());
         }
     }
 }
